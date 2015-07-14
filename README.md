@@ -12,3 +12,5 @@ Write some good stuff here
 - Add a "justified" field to allow for left or right justification
 - Figure out a good way to support "toUpperCase" on all character fields without being to verbose in the rules
 - General cleanup
+- Update this readme with real documentation
+- 
