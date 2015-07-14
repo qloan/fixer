@@ -1,0 +1,34 @@
+{
+  "name": "fixer",
+  "version": "0.7.0",
+  "description": "A tool for working with fixed format data",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qloan/fixer.git"
+  },
+  "keywords": [
+    "Fixed",
+    "Format",
+    "Parsing"
+  ],
+  "author": "",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/qloan/fixer/issues"
+  },
+  "homepage": "https://github.com/qloan/fixer",
+    "devDependencies": {
+    "chai": "^2.3.0",
+    "del": "^1.1.1",
+    "mocha": "^2.1.0",
+    "mocha-jenkins-reporter": "^0.1.6",
+    "should": "^5.0.1"
+  }
+}
