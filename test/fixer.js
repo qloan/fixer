@@ -11,8 +11,8 @@ describe('fixer', function () {
         // padding: " ",
         // initialValue: "  -  -    ",
         layout: {
-            zero: [0, 2, false],
-            four: [4, 2, false]
+            zero: [0, 2, {}],
+            four: [4, 2, {}]
         }
     };
 
@@ -108,12 +108,10 @@ describe('fixer', function () {
 
     it("should fail when required fields are not set", function(done) {
         var myFormat = JSON.parse(JSON.stringify(format));
-        myFormat.layout.zero[2] = true;
-
+        myFormat.layout.zero[2]["required"] = true;
         fixer = new Fixer(myFormat);
         var fn = fixer.output.bind(fixer);
         expect(fn).to.throw("Property ");
-
         fixer.set("zero", "b");
         expect(fn).not.to.throw();
         done();
@@ -130,6 +128,41 @@ describe('fixer', function () {
         expect(fn).to.throw("Invalid property");
         done();
     });
+
+    it("should get a number", function(done) {
+        fixer.set("four", 66)
+        fixer.get("four").should.equal(66);
+        done();
+    });
+    it("should get a bool", function(done) {
+        var myFormat = JSON.parse(JSON.stringify(format));
+        myFormat.layout.four[1] = 4;
+        fixer = new Fixer(myFormat);
+        fixer.set("four", "True")
+        fixer.get("four").should.equal(true);
+        fixer.set("four", true)
+        fixer.get("four").should.equal(true);
+        done();
+    });
+    it("should lookup value in vals object on get", function(done) {
+        var format = {
+             length: 12,      // required field describing the total length the fixed format data is
+             padding: "!",   // character the output string will be padded with
+             initialValue: "   -  -    ", // initial value the string will be initialized to
+             layout: {
+                 first:  [0, 3, {vals: {"one": "AAA", "two": "BBB", "three": "CCC"}}],
+                 second: [4, 2, true],
+                 third:  [7, 4, true]
+              }
+         }
+         var a = new Fixer(format);
+         a.set("first", "one")
+         a.get("first").should.equal("one")
+         a.output().should.equal("AAA-  -    !")
+         done();
+    });
+
+    // inquiryMonths:          [ 41,  1,  { default: "B", vals: {"3": "A", "6": "B", "9": "C", "12": "D"} } ],
 
     it("should work with ssn example in the top", function(done) {
         var format = {
