@@ -93,9 +93,12 @@ describe('fixer', function () {
     });
 
     it("should convert numbers to strings", function(done) {
+        var myFormat = JSON.parse(JSON.stringify(format));
+        myFormat.layout.four[2].type = "number";
+        fixer = new Fixer(myFormat);
         fixer.set("four", 99);
         var output = fixer.output();
-        output.should.equal("aaaa99aaaa");
+        output.should.equal('  - 99   a');
         done();
     });
 
@@ -131,18 +134,11 @@ describe('fixer', function () {
     });
 
     it("should get a number", function(done) {
+        var myFormat = JSON.parse(JSON.stringify(format));
+        myFormat.layout.four[2].type = "number";
+        fixer = new Fixer(myFormat);
         fixer.set("four", 66)
         fixer.get("four").should.equal(66);
-        done();
-    });
-    it("should get a bool", function(done) {
-        var myFormat = JSON.parse(JSON.stringify(format));
-        myFormat.layout.four[1] = 4;
-        fixer = new Fixer(myFormat);
-        fixer.set("four", "True")
-        fixer.get("four").should.equal(true);
-        fixer.set("four", true)
-        fixer.get("four").should.equal(true);
         done();
     });
     it("should lookup value in vals object on get", function(done) {
@@ -168,8 +164,43 @@ describe('fixer', function () {
         fixer = new Fixer(myFormat);
         fixer.set("four", "t s")
         fixer.get("four").should.equal("t s")
-        fixer.set("four", "0044")
-        fixer.get("four").should.equal(44)
+        done();
+    });
+    it("should be able to taker getter and setter functions", function(done) {
+        var format = {
+             length: 5,
+             initialValue: "",
+             layout: {
+                 first:  [0, 4, {
+                  required: "true",
+                  setter: function(val) {
+                    var value = ""
+                    if (val == "Y") {
+                        value = "true"
+                        return value
+                    } else {
+                        value = "false"
+                        return value
+                    }
+                  },
+                  getter: function(val) {
+                    var value = ""
+                    if (val == "true") {
+                        value = "Y"
+                        return value
+                    } else {
+                        value = "N"
+                        return value
+                    }
+                  }
+               }],
+              }
+            }
+
+        var a = new Fixer(format);
+        a.set("first", "Y")
+        a.get("first").should.equal("Y")
+        a.output().should.equal("true ")
         done();
     });
     it("should work with ssn example in the top", function(done) {
@@ -178,9 +209,9 @@ describe('fixer', function () {
              padding: "!",   // character the output string will be padded with
              initialValue: "   -  -    ", // initial value the string will be initialized to
              layout: {
-                 first:  [0, 3, true],
-                 second: [4, 2, true],
-                 third:  [7, 4, true]
+                 first:  [0, 3, {required: "true", type: "number"}],
+                 second: [4, 2, {required: "true", type: "number"}],
+                 third:  [7, 4, {required: "true", type: "number"}]
               }
          }
         var a = new Fixer(format);
