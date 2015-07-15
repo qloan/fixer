@@ -106,7 +106,6 @@ describe('fixer', function () {
         done();
     });
 
-<<<<<<< HEAD
     it("should fail when required fields are not set", function(done) {
         var myFormat = JSON.parse(JSON.stringify(format));
         myFormat.layout.zero[2]["required"] = true;
@@ -117,20 +116,7 @@ describe('fixer', function () {
         expect(fn).not.to.throw();
         done();
     });
-=======
-    // it("should fail when required fields are not set", function(done) {
-    //     var myFormat = JSON.parse(JSON.stringify(format));
-    //     myFormat.layout.zero[2] = true;
 
-    //     fixer = new Fixer(myFormat);
-    //     var fn = fixer.output.bind(fixer);
-    //     expect(fn).to.throw("Property ");
-
-    //     fixer.set("zero", "b");
-    //     expect(fn).not.to.throw();
-    //     done();
-    // });
->>>>>>> origin/master
 
     it("should enforce the length property in the layout structure", function(done) {
         var fn = fixer.set.bind(fixer, "four", "a really long string that shouldn't work");
