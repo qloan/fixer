@@ -38,7 +38,7 @@ describe('fixer', function () {
             test = new Fixer(myFormat);
         }
         catch (e) {
-            e.toString().should.contain("Error: format.length must be greater")
+            e.toString().should.contain("Error: format.length must be greater");
             done();
         }
         expect(test).to.be.an("undefined");
@@ -53,14 +53,13 @@ describe('fixer', function () {
             test = new Fixer(myFormat);
         }
         catch (e) {
-            e.toString().should.contain("Error: format.length is a")
+            e.toString().should.contain("Error: format.length is a");
             done();
         }
         expect(test).to.be.an("undefined");
     });
 
     it("should pad strings to the specified padding value", function(done) {
-        var myFormat = JSON.parse(JSON.stringify(format));
         format.padding = "-";
         fixer = new Fixer(format);
         fixer.output().should.equal('-------');
@@ -69,7 +68,6 @@ describe('fixer', function () {
         done();
     });
     it("should use _initialValue property to pre allocate part of the string", function(done) {
-        var myFormat = JSON.parse(JSON.stringify(format));
         format.padding = "a";
         format.length = 10;
         format.initialValue = "  -  -   ";
@@ -155,7 +153,7 @@ describe('fixer', function () {
          var a = new Fixer(format);
          a.set("first", "one")
          a.get("first").should.equal("one")
-         a.output().should.equal("AAA-  -    !")
+         a.output().should.equal("AAA-  -    !");
          done();
     });
     it("should strip blanks and fillers on get", function(done) {
@@ -174,33 +172,33 @@ describe('fixer', function () {
                  first:  [0, 4, {
                   required: "true",
                   setter: function(val) {
-                    var value = ""
-                    if (val == "Y") {
-                        value = "true"
-                        return value
+                    var value = "";
+                    if (val === "Y") {
+                        value = "true";
+                        return value;
                     } else {
-                        value = "false"
-                        return value
+                        value = "false";
+                        return value;
                     }
                   },
                   getter: function(val) {
                     var value = ""
-                    if (val == "true") {
-                        value = "Y"
-                        return value
+                    if (val === "true") {
+                        value = "Y";
+                        return value;
                     } else {
-                        value = "N"
-                        return value
+                        value = "N";
+                        return value;
                     }
                   }
-               }],
+               }]
               }
             }
 
         var a = new Fixer(format);
-        a.set("first", "Y")
-        a.get("first").should.equal("Y")
-        a.output().should.equal("true ")
+        a.set("first", "Y");
+        a.get("first").should.equal("Y");
+        a.output().should.equal("true ");
         done();
     });
     it("should work with ssn example in the top", function(done) {
