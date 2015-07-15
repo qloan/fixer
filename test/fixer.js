@@ -162,9 +162,16 @@ describe('fixer', function () {
          a.output().should.equal("AAA-  -    !")
          done();
     });
-
-    // inquiryMonths:          [ 41,  1,  { default: "B", vals: {"3": "A", "6": "B", "9": "C", "12": "D"} } ],
-
+    it("should strip blanks and fillers on get", function(done) {
+        var myFormat = JSON.parse(JSON.stringify(format));
+        myFormat.layout.four[1] = 4;
+        fixer = new Fixer(myFormat);
+        fixer.set("four", "t s")
+        fixer.get("four").should.equal("t s")
+        fixer.set("four", "0044")
+        fixer.get("four").should.equal(44)
+        done();
+    });
     it("should work with ssn example in the top", function(done) {
         var format = {
              length: 12,      // required field describing the total length the fixed format data is
