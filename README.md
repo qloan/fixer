@@ -14,3 +14,7 @@ Write some good stuff here
 - General cleanup
 - Update this readme with real documentation
 - 
+
+# Installation
+
+npm install fixer
