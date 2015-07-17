@@ -158,6 +158,7 @@ describe('fixer', function () {
     });
     it("should strip blanks and fillers on get", function(done) {
         var myFormat = JSON.parse(JSON.stringify(format));
+        myFormat.padding = "";
         myFormat.layout.four[1] = 4;
         fixer = new Fixer(myFormat);
         fixer.set("four", "t s")
@@ -199,6 +200,49 @@ describe('fixer', function () {
         a.set("first", "Y");
         a.get("first").should.equal("Y");
         a.output().should.equal("true ");
+        done();
+    });
+    it("should justify fields", function(done) {
+        var format = {
+             length: 7,
+             initialValue: "",      
+             layout: {
+                 first:  [0, 5, {required: "true", justify: "right"}]
+              }
+         }
+        var a = new Fixer(format);
+        a.set("first", "at")
+        a.output().should.equal('    at ')
+        done();
+    });
+    it("should clear fields", function(done) {
+        var format = {
+             length: 7,
+             initialValue: "",      
+             layout: {
+                 first:  [0, 5, {required: "true"}]
+              }
+         }
+        var a = new Fixer(format);
+        a.set("first", "att")
+        a.get("first").should.equal("att")
+        a.set("first", "to")
+        a.get("first").should.equal("to")
+        a.output().should.equal('to     ')
+        done();
+    });
+    it("should clear and justify fields", function(done){
+        var format = {
+             length: 7,
+             initialValue: "",      
+             layout: {
+                 first:  [0, 5, {required: "true", justify: "right"}]
+              }
+         }
+        var a = new Fixer(format);
+        a.set("first", "abc")
+        a.set("first", "at")
+        a.output().should.equal("    at ")
         done();
     });
     it("should work with ssn example in the top", function(done) {
