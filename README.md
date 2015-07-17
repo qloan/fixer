@@ -1,20 +1,31 @@
 # fixer
 
-Write some good stuff here
-
-
-# Todo:
-
-- Support field type, number, string, bool and automatically convert on get/set
-- Have "Get" honor the vals property and lookup the mapped value that "Set" currently uses
-- Write and update any unit tests that fail
-- Strip blanks and fillers from inputs (numbers may come in as "0041", output should be 41, input of 41 should generate 0041 if the field's filler is '0')
-- Add a "justified" field to allow for left or right justification
-- Figure out a good way to support "toUpperCase" on all character fields without being to verbose in the rules
-- General cleanup
-- Update this readme with real documentation
-- 
+Utility functions for fixed format data.
 
 # Installation
 
+```
 npm install fixer
+```
+
+# Basic Usage
+```
+  Format: {
+      length: 12,       required field describing the total length the fixed format data is
+      padding: "!",    character the output string will be padded with
+      initialValue: "   -  -    ",  initial value the string will be initialized to
+      layout: {
+          first:  [0, 3, true],
+          second: [4, 2, true],
+          third:  [7, 4, true]
+       }
+  }
+  var a = new Fixer(format);
+  a.set("first", 111);
+  a.set("second", "22");
+  a.set("third', "6789");
+  a.output() -> "111-22-6789!"
+  ```
+
+
+
