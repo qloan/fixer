@@ -37,15 +37,55 @@ layout: {
 
 //options
 
-required: bool // whether or not the section is required
-type: string // type of value, defaults to string
-default: string // default value
-setter: function // function that takes value, run on SET
-getter: function // function that takes value, run on GET
-justify: bool // right justifies value
-vals: object // look up object for type
+required: bool			// whether or not the section is required
+type: string           // type of value, defaults to string
+default: string       // default value
+setter: function     // function that takes value, run on SET
+getter: function    // function that takes value, run on GET
+justify: bool      // right justifies value
+vals: object      // look up object for type
 
 ```
+
+# Set
+
+```
+var a = new Fixer(format);
+
+a.set(section, value)
+
+a.set("first", "hello")
+```
+
+# Get
+
+```
+var a = new Fixer(format);
+
+a.get(section)
+
+a.set("first", "hello")
+a.get("first") -> "hello"
+```
+
+# Output
+
+```
+var format = {
+        length: 5,
+        layout: {
+            first: [0, 3, {"required": true}],
+      		second: [3, 2, {"required": true}]
+        }
+    };
+
+var a = new Fixer(format);
+a.set("first", "hel");
+a.set("second", "lo")
+
+a.output() -> "hello"
+```
+
 
 
      

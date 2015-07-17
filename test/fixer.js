@@ -8,8 +8,6 @@ var Fixer = require('../lib/fixer');
 describe('fixer', function () {
     var format = {
         length: 7,
-        // padding: " ",
-        // initialValue: "  -  -    ",
         layout: {
             zero: [0, 2, {}],
             four: [4, 2, {}]
