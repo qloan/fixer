@@ -80,6 +80,13 @@ describe('fixer', function () {
         fixer.output().should.equal(dv);
         done();
     });
+    it("should get empty numbers as 0", function(done) {
+        var myFormat = JSON.parse(JSON.stringify(format));
+        myFormat.layout.four[2].type = "number";
+        fixer = new Fixer(myFormat);
+        fixer.get("four").should.equal(0);
+        done();
+    });
 
     it("should replace a section", function(done) {
         fixer.set("four", "bb");
