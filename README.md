@@ -122,7 +122,6 @@ var a = new Fixer(format);
 a.set("first", "Y");
 a.get("first") -> "Y"
 a.output() -> "true ";
-done();
 ```
 
 # Vals Example
@@ -142,7 +141,6 @@ var format = {
  a.set("first", "one")
  a.get("first") -> "one"
  a.output() -> "AAA-  -    !"
- done();
  ```
 
 
