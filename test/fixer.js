@@ -207,7 +207,7 @@ describe('fixer', function () {
              length: 7,
              initialValue: "",      
              layout: {
-                 first:  [0, 5, {required: "true", justify: "right"}]
+                 first:  [0, 5, {required: true, justify: true}]
               }
          }
         var a = new Fixer(format);
@@ -236,7 +236,7 @@ describe('fixer', function () {
              length: 7,
              initialValue: "",      
              layout: {
-                 first:  [0, 5, {required: "true", justify: "right"}]
+                 first:  [0, 5, {required: true, justify: true}]
               }
          }
         var a = new Fixer(format);
