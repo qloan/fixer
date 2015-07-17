@@ -86,6 +86,64 @@ a.set("second", "lo")
 a.output() -> "hello"
 ```
 
+# Setter/Getter Example
+```
+var format = {
+             length: 5,
+             initialValue: "",
+             layout: {
+                 first:  [0, 4, {
+                  required: "true",
+                  setter: function(val) {
+                    var value = "";
+                    if (val === "Y") {
+                        value = "true";
+                        return value;
+                    } else {
+                        value = "false";
+                        return value;
+                    }
+                  },
+                  getter: function(val) {
+                    var value = ""
+                    if (val === "true") {
+                        value = "Y";
+                        return value;
+                    } else {
+                        value = "N";
+                        return value;
+                    }
+                  }
+               }]
+              }
+            }
+
+var a = new Fixer(format);
+a.set("first", "Y");
+a.get("first") -> "Y"
+a.output() -> "true ";
+done();
+```
+
+# Vals Example
+```
+var format = {
+             length: 12,
+             padding: "!",
+             initialValue: "   -  -    ",
+             layout: {
+                 first:  [0, 3, {vals: {"one": "AAA", "two": "BBB", "three": "CCC"}}],
+                 second: [4, 2, true],
+                 third:  [7, 4, true]
+              }
+         }
+
+ var a = new Fixer(format);
+ a.set("first", "one")
+ a.get("first") -> "one"
+ a.output() -> "AAA-  -    !"
+ done();
+ ```
 
 
      
