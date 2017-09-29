@@ -65,13 +65,14 @@ describe('fixer', function () {
         fixer.output().should.equal('----aa-');
         done();
     });
+
     it("should use _initialValue property to pre allocate part of the string", function(done) {
         format.padding = "a";
         format.length = 10;
         format.initialValue = "  -  -   ";
         fixer = new Fixer(format);
         fixer.output().should.equal("  -  -   a");
-        fixer.set("zero", "bb")
+        fixer.set("zero", "bb");
         fixer.output().should.equal("bb-  -   a");
         done();
     });
@@ -80,6 +81,7 @@ describe('fixer', function () {
         fixer.output().should.equal(dv);
         done();
     });
+
     it("should get empty numbers as 0", function(done) {
         var myFormat = JSON.parse(JSON.stringify(format));
         myFormat.layout.four[2].type = "number";
@@ -102,6 +104,17 @@ describe('fixer', function () {
         fixer.set("four", 99);
         var output = fixer.output();
         output.should.equal('  - 99   a');
+        done();
+    });
+
+    it("should convert diacritics to base ascii comparables", function(done) {
+        var myFormat = JSON.parse(JSON.stringify(format));
+        myFormat.length = 27;
+        myFormat.layout.four[1] = 23;
+        fixer = new Fixer(myFormat);
+        fixer.set("four", "àçĐéêëîŁŇńŃóřšŤÙÝŽžżŻźŹ");
+        var output = fixer.output();
+        output.should.equal('  - acDeeeiLNnNorsTUYZzzZzZ');
         done();
     });
 
@@ -140,66 +153,66 @@ describe('fixer', function () {
         var myFormat = JSON.parse(JSON.stringify(format));
         myFormat.layout.four[2].type = "number";
         fixer = new Fixer(myFormat);
-        fixer.set("four", 66)
+        fixer.set("four", 66);
         fixer.get("four").should.equal(66);
         done();
     });
     it("should lookup value in vals object on get", function(done) {
         var format = {
-             length: 12,      // required field describing the total length the fixed format data is
-             padding: "!",   // character the output string will be padded with
-             initialValue: "   -  -    ", // initial value the string will be initialized to
-             layout: {
-                 first:  [0, 3, {vals: {"one": "AAA", "two": "BBB", "three": "CCC"}}],
-                 second: [4, 2, true],
-                 third:  [7, 4, true]
-              }
-         }
-         var a = new Fixer(format);
-         a.set("first", "one")
-         a.get("first").should.equal("one")
-         a.output().should.equal("AAA-  -    !");
-         done();
+            length: 12,      // required field describing the total length the fixed format data is
+            padding: "!",   // character the output string will be padded with
+            initialValue: "   -  -    ", // initial value the string will be initialized to
+            layout: {
+                first:  [0, 3, {vals: {"one": "AAA", "two": "BBB", "three": "CCC"}}],
+                second: [4, 2, true],
+                third:  [7, 4, true]
+            }
+        };
+        var a = new Fixer(format);
+        a.set("first", "one");
+        a.get("first").should.equal("one");
+        a.output().should.equal("AAA-  -    !");
+        done();
     });
     it("should strip blanks and fillers on get", function(done) {
         var myFormat = JSON.parse(JSON.stringify(format));
         myFormat.padding = "";
         myFormat.layout.four[1] = 4;
         fixer = new Fixer(myFormat);
-        fixer.set("four", "t s")
-        fixer.get("four").should.equal("t s")
+        fixer.set("four", "t s");
+        fixer.get("four").should.equal("t s");
         done();
     });
     it("should be able to taker getter and setter functions", function(done) {
         var format = {
-             length: 5,
-             initialValue: "",
-             layout: {
-                 first:  [0, 4, {
-                  required: "true",
-                  setter: function(val) {
-                    var value = "";
-                    if (val === "Y") {
-                        value = "true";
-                        return value;
-                    } else {
-                        value = "false";
-                        return value;
+            length: 5,
+            initialValue: "",
+            layout: {
+                first:  [0, 4, {
+                    required: "true",
+                    setter: function(val) {
+                        var value = "";
+                        if (val === "Y") {
+                            value = "true";
+                            return value;
+                        } else {
+                            value = "false";
+                            return value;
+                        }
+                    },
+                    getter: function(val) {
+                        var value = "";
+                        if (val === "true") {
+                            value = "Y";
+                            return value;
+                        } else {
+                            value = "N";
+                            return value;
+                        }
                     }
-                  },
-                  getter: function(val) {
-                    var value = ""
-                    if (val === "true") {
-                        value = "Y";
-                        return value;
-                    } else {
-                        value = "N";
-                        return value;
-                    }
-                  }
-               }]
-              }
+                }]
             }
+        };
 
         var a = new Fixer(format);
         a.set("first", "Y");
@@ -209,58 +222,58 @@ describe('fixer', function () {
     });
     it("should justify fields", function(done) {
         var format = {
-             length: 7,
-             initialValue: "",      
-             layout: {
-                 first:  [0, 5, {required: true, justify: true}]
-              }
-         }
+            length: 7,
+            initialValue: "",
+            layout: {
+                first:  [0, 5, {required: true, justify: true}]
+            }
+        };
         var a = new Fixer(format);
-        a.set("first", "at")
-        a.output().should.equal('    at ')
+        a.set("first", "at");
+        a.output().should.equal('    at ');
         done();
     });
     it("should clear fields", function(done) {
         var format = {
-             length: 7,
-             initialValue: "",      
-             layout: {
-                 first:  [0, 5, {required: "true"}]
-              }
-         }
+            length: 7,
+            initialValue: "",
+            layout: {
+                first:  [0, 5, {required: "true"}]
+            }
+        };
         var a = new Fixer(format);
-        a.set("first", "att")
-        a.get("first").should.equal("att")
-        a.set("first", "to")
-        a.get("first").should.equal("to")
-        a.output().should.equal('to     ')
+        a.set("first", "att");
+        a.get("first").should.equal("att");
+        a.set("first", "to");
+        a.get("first").should.equal("to");
+        a.output().should.equal('to     ');
         done();
     });
     it("should clear and justify fields", function(done){
         var format = {
-             length: 7,
-             initialValue: "",      
-             layout: {
-                 first:  [0, 5, {required: true, justify: true}]
-              }
-         }
+            length: 7,
+            initialValue: "",
+            layout: {
+                first:  [0, 5, {required: true, justify: true}]
+            }
+        };
         var a = new Fixer(format);
-        a.set("first", "abc")
-        a.set("first", "at")
-        a.output().should.equal("    at ")
+        a.set("first", "abc");
+        a.set("first", "at");
+        a.output().should.equal("    at ");
         done();
     });
     it("should work with ssn example in the top", function(done) {
         var format = {
-             length: 12,      // required field describing the total length the fixed format data is
-             padding: "!",   // character the output string will be padded with
-             initialValue: "   -  -    ", // initial value the string will be initialized to
-             layout: {
-                 first:  [0, 3, {required: "true", type: "number"}],
-                 second: [4, 2, {required: "true", type: "number"}],
-                 third:  [7, 4, {required: "true", type: "number"}]
-              }
-         }
+            length: 12,      // required field describing the total length the fixed format data is
+            padding: "!",   // character the output string will be padded with
+            initialValue: "   -  -    ", // initial value the string will be initialized to
+            layout: {
+                first:  [0, 3, {required: "true", type: "number"}],
+                second: [4, 2, {required: "true", type: "number"}],
+                third:  [7, 4, {required: "true", type: "number"}]
+            }
+        };
         var a = new Fixer(format);
         a.set("first", 111);
         a.set("second", "22");

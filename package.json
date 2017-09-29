@@ -1,6 +1,6 @@
 {
   "name": "fixer",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A tool for working with fixed format data",
   "main": "index.js",
   "directories": {
