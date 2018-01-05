@@ -136,6 +136,12 @@ describe('fixer', function () {
         done();
     });
 
+    it("should safely set a string if the value is longer than the allowed length of the field", function(done) {
+        fixer.safeSet("four", "bbbbbbb");
+        var output = fixer.output();
+        output.should.equal("aaaabbaaaa");
+        done();
+    });
 
     it("should enforce the length property in the layout structure", function(done) {
         var fn = fixer.set.bind(fixer, "four", "a really long string that shouldn't work");
