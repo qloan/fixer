@@ -57,6 +57,18 @@ a.set(section, value)
 a.set("first", "hello")
 ```
 
+# Safe Set
+Sets a value but will truncate the value automatically if it exceeds the fields maximum length
+
+```
+var a = new Fixer(format);
+
+a.safeSet(section, value)
+
+a.safeSet("first", "hello")
+```
+
+
 # Get
 
 ```
@@ -144,6 +156,6 @@ var format = {
  ```
 
 
-     
+
 
 
