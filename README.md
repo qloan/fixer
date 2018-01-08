@@ -61,11 +61,17 @@ a.set("first", "hello")
 Sets a value but will truncate the value automatically if it exceeds the fields maximum length
 
 ```
-var a = new Fixer(format);
+var a = new Fixer({
+        length: 7,
+        layout: {
+            zero: [0, 2, {}],
+            four: [4, 2, {}]
+        }
+    });
 
-a.safeSet(section, value)
+fixer.safeSet("four", "bbbbbbb");
+fixer.output(); // -> "    bb    ""
 
-a.safeSet("first", "hello")
 ```
 
 
